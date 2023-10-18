@@ -319,6 +319,8 @@ static inline dom_html_element_type _dom_html_document_get_element_type(
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_RP)
 		else
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_RT)
+		else
+		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_TT)
 		break;
 	case 3:
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_DIV)
@@ -354,6 +356,8 @@ static inline dom_html_element_type _dom_html_document_get_element_type(
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_BDO)
 		else
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_WBR)
+		else
+		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_BIG)
 		break;
 	case 4:
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_META)
@@ -395,6 +399,8 @@ static inline dom_html_element_type _dom_html_document_get_element_type(
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_BASE)
 		else
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_TIME)
+		else
+		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_NOBR)
 		break;
 	case 5:
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_INPUT)
@@ -469,6 +475,10 @@ static inline dom_html_element_type _dom_html_document_get_element_type(
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_SOURCE)
 		else
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_STRONG)
+		else
+		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_SPACER)
+		else
+		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_STRIKE)
 		break;
 	case 7:
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_CAPTION)
@@ -486,6 +496,12 @@ static inline dom_html_element_type _dom_html_document_get_element_type(
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_SECTION)
 		else
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_SUMMARY)
+		else
+		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_ACRONYM)
+		else
+		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_BGSOUND)
+		else
+		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_MARQUEE)
 		break;
 	case 8:
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_TEXTAREA)
@@ -509,6 +525,8 @@ static inline dom_html_element_type _dom_html_document_get_element_type(
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_PROGRESS)
 		else
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_TEMPLATE)
+		else
+		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_NOFRAMES)
 		break;
 	case 10:
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_BLOCKQUOTE)
@@ -809,8 +827,10 @@ _dom_html_document_create_element_internal(
 	case DOM_HTML_ELEMENT_TYPE_EM:
 	case DOM_HTML_ELEMENT_TYPE_RP:
 	case DOM_HTML_ELEMENT_TYPE_RT:
+	case DOM_HTML_ELEMENT_TYPE_TT:
 	case DOM_HTML_ELEMENT_TYPE_BDI:
 	case DOM_HTML_ELEMENT_TYPE_BDO:
+	case DOM_HTML_ELEMENT_TYPE_BIG:
 	case DOM_HTML_ELEMENT_TYPE_DFN:
 	case DOM_HTML_ELEMENT_TYPE_KBD:
 	case DOM_HTML_ELEMENT_TYPE_NAV:
@@ -823,6 +843,7 @@ _dom_html_document_create_element_internal(
 	case DOM_HTML_ELEMENT_TYPE_CODE:
 	case DOM_HTML_ELEMENT_TYPE_MAIN:
 	case DOM_HTML_ELEMENT_TYPE_MARK:
+	case DOM_HTML_ELEMENT_TYPE_NOBR:
 	case DOM_HTML_ELEMENT_TYPE_RUBY:
 	case DOM_HTML_ELEMENT_TYPE_SAMP:
 	case DOM_HTML_ELEMENT_TYPE_ASIDE:
@@ -833,10 +854,16 @@ _dom_html_document_create_element_internal(
 	case DOM_HTML_ELEMENT_TYPE_HEADER:
 	case DOM_HTML_ELEMENT_TYPE_HGROUP:
 	case DOM_HTML_ELEMENT_TYPE_STRONG:
+	case DOM_HTML_ELEMENT_TYPE_SPACER:
+	case DOM_HTML_ELEMENT_TYPE_STRIKE:
+	case DOM_HTML_ELEMENT_TYPE_ACRONYM:
 	case DOM_HTML_ELEMENT_TYPE_ADDRESS:
 	case DOM_HTML_ELEMENT_TYPE_ARTICLE:
+	case DOM_HTML_ELEMENT_TYPE_BGSOUND:
+	case DOM_HTML_ELEMENT_TYPE_MARQUEE:
 	case DOM_HTML_ELEMENT_TYPE_SECTION:
 	case DOM_HTML_ELEMENT_TYPE_SUMMARY:
+	case DOM_HTML_ELEMENT_TYPE_NOFRAMES:
 	case DOM_HTML_ELEMENT_TYPE_NOSCRIPT:
 	case DOM_HTML_ELEMENT_TYPE_FIGCAPTION:
 		/* These have no specialisation: use HTMLElement */
