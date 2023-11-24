@@ -131,6 +131,14 @@ dom_exception _dom_document_initialise(dom_document *doc,
 		return err;
 	}
 
+	err = dom_string_create_interned((const uint8_t *) "UTF-8",
+			SLEN("UTF-8"), &doc->encoding);
+	if (err != DOM_NO_ERR) {
+		dom_string_unref(name);
+		dom_string_unref(doc->uri);
+		return err;
+	}
+
 	doc->nodelists = NULL;
 
 	err = _dom_node_initialise(&doc->base, doc, DOM_DOCUMENT_NODE,
@@ -138,6 +146,7 @@ dom_exception _dom_document_initialise(dom_document *doc,
 	dom_string_unref(name);
 	if (err != DOM_NO_ERR) {
 		dom_string_unref(doc->uri);
+		dom_string_unref(doc->encoding);
 		return err;
 	}
 
@@ -147,6 +156,7 @@ dom_exception _dom_document_initialise(dom_document *doc,
 					 SLEN("id"), &doc->id_name);
 	if (err != DOM_NO_ERR) {
 		dom_string_unref(doc->uri);
+		dom_string_unref(doc->encoding);
 		return err;
 	}
 	doc->quirks = DOM_DOCUMENT_QUIRKS_MODE_NONE;
@@ -155,6 +165,7 @@ dom_exception _dom_document_initialise(dom_document *doc,
 			SLEN("class"), &doc->class_string);
 	if (err != DOM_NO_ERR) {
 		dom_string_unref(doc->uri);
+		dom_string_unref(doc->encoding);
 		dom_string_unref(doc->id_name);
 		return err;
 	}
@@ -163,6 +174,7 @@ dom_exception _dom_document_initialise(dom_document *doc,
 			SLEN("script"), &doc->script_string);
 	if (err != DOM_NO_ERR) {
 		dom_string_unref(doc->uri);
+		dom_string_unref(doc->encoding);
 		dom_string_unref(doc->id_name);
 		dom_string_unref(doc->class_string);
 		return err;
@@ -175,6 +187,7 @@ dom_exception _dom_document_initialise(dom_document *doc,
 					 &doc->_memo_empty);
 	if (err != DOM_NO_ERR) {
 		dom_string_unref(doc->uri);
+		dom_string_unref(doc->encoding);
 		dom_string_unref(doc->id_name);
 		dom_string_unref(doc->class_string);
 		dom_string_unref(doc->script_string);
@@ -187,6 +200,7 @@ dom_exception _dom_document_initialise(dom_document *doc,
 	if (err != DOM_NO_ERR) {
 		dom_string_unref(doc->_memo_empty);
 		dom_string_unref(doc->uri);
+		dom_string_unref(doc->encoding);
 		dom_string_unref(doc->id_name);
 		dom_string_unref(doc->class_string);
 		dom_string_unref(doc->script_string);
@@ -200,6 +214,7 @@ dom_exception _dom_document_initialise(dom_document *doc,
 		dom_string_unref(doc->_memo_domnodeinserted);
 		dom_string_unref(doc->_memo_empty);
 		dom_string_unref(doc->uri);
+		dom_string_unref(doc->encoding);
 		dom_string_unref(doc->id_name);
 		dom_string_unref(doc->class_string);
 		dom_string_unref(doc->script_string);
@@ -214,6 +229,7 @@ dom_exception _dom_document_initialise(dom_document *doc,
 		dom_string_unref(doc->_memo_domnodeinserted);
 		dom_string_unref(doc->_memo_empty);
 		dom_string_unref(doc->uri);
+		dom_string_unref(doc->encoding);
 		dom_string_unref(doc->id_name);
 		dom_string_unref(doc->class_string);
 		dom_string_unref(doc->script_string);
@@ -229,6 +245,7 @@ dom_exception _dom_document_initialise(dom_document *doc,
 		dom_string_unref(doc->_memo_domnodeinserted);
 		dom_string_unref(doc->_memo_empty);
 		dom_string_unref(doc->uri);
+		dom_string_unref(doc->encoding);
 		dom_string_unref(doc->id_name);
 		dom_string_unref(doc->class_string);
 		dom_string_unref(doc->script_string);
@@ -245,6 +262,7 @@ dom_exception _dom_document_initialise(dom_document *doc,
 		dom_string_unref(doc->_memo_domnodeinserted);
 		dom_string_unref(doc->_memo_empty);
 		dom_string_unref(doc->uri);
+		dom_string_unref(doc->encoding);
 		dom_string_unref(doc->id_name);
 		dom_string_unref(doc->class_string);
 		dom_string_unref(doc->script_string);
@@ -262,6 +280,7 @@ dom_exception _dom_document_initialise(dom_document *doc,
 		dom_string_unref(doc->_memo_domnodeinserted);
 		dom_string_unref(doc->_memo_empty);
 		dom_string_unref(doc->uri);
+		dom_string_unref(doc->encoding);
 		dom_string_unref(doc->id_name);
 		dom_string_unref(doc->class_string);
 		dom_string_unref(doc->script_string);
@@ -280,6 +299,7 @@ dom_exception _dom_document_initialise(dom_document *doc,
 		dom_string_unref(doc->_memo_domnodeinserted);
 		dom_string_unref(doc->_memo_empty);
 		dom_string_unref(doc->uri);
+		dom_string_unref(doc->encoding);
 		dom_string_unref(doc->id_name);
 		dom_string_unref(doc->class_string);
 		dom_string_unref(doc->script_string);
@@ -320,6 +340,7 @@ bool _dom_document_finalise(dom_document *doc)
 		dom_string_unref(doc->id_name);
 
 	dom_string_unref(doc->uri);
+	dom_string_unref(doc->encoding);
 	dom_string_unref(doc->class_string);
 	dom_string_unref(doc->script_string);
 	dom_string_unref(doc->_memo_empty);
@@ -870,7 +891,7 @@ dom_exception _dom_document_get_element_by_id(dom_document *doc,
  *
  * \param doc     The document to query
  * \param result  Pointer to location to receive result
- * \return DOM_NOT_SUPPORTED_ERR, we don't support this API now.
+ * \return DOM_NO_ERR            on success,
  *
  * The returned string will have its reference count increased. It is
  * the responsibility of the caller to unref the string once it has
@@ -879,10 +900,25 @@ dom_exception _dom_document_get_element_by_id(dom_document *doc,
 dom_exception _dom_document_get_input_encoding(dom_document *doc,
 		dom_string **result)
 {
-	UNUSED(doc);
-	UNUSED(result);
+	*result = dom_string_ref(doc->encoding);
 
-	return DOM_NOT_SUPPORTED_ERR;
+	return DOM_NO_ERR;
+}
+
+/**
+ * Set the input encoding of this document
+ *
+ * \param doc   		The document object
+ * \param encoding  	The input encoding of the elements in this document
+ * \return DOM_NO_ERR   on success,
+ */
+dom_exception _dom_document_set_input_encoding(dom_document *doc,
+		dom_string *encoding)
+{
+	dom_string_unref(doc->encoding);
+	doc->encoding = dom_string_ref(encoding);
+
+	return DOM_NO_ERR;
 }
 
 /**

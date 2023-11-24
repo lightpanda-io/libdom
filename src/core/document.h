@@ -56,6 +56,8 @@ struct dom_document {
 
 	dom_string *script_string;	/**< The string "script". */
 
+	dom_string *encoding;
+
 	dom_document_event_internal dei;
 			/**< The DocumentEvent interface */
 	dom_document_quirks_mode quirks;
@@ -128,6 +130,8 @@ dom_exception _dom_document_get_element_by_id(dom_document *doc,
 		dom_string *id, dom_element **result);
 dom_exception _dom_document_get_input_encoding(dom_document *doc,
 		dom_string **result);
+dom_exception _dom_document_set_input_encoding(dom_document *doc,
+		dom_string *encoding);
 dom_exception _dom_document_get_xml_encoding(dom_document *doc,
 		dom_string **result);
 dom_exception _dom_document_get_xml_standalone(dom_document *doc,

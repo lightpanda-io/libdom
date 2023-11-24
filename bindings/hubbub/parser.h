@@ -65,6 +65,8 @@ typedef struct dom_hubbub_parser_params {
 	dom_events_default_action_fetcher daf;
 } dom_hubbub_parser_params;
 
+void _set_document_encoding(dom_document *doc, const char *charset);
+
 /* Create a Hubbub parser instance */
 dom_hubbub_error dom_hubbub_parser_create(dom_hubbub_parser_params *params,
 		dom_hubbub_parser **parser,

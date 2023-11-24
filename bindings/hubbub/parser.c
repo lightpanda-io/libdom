@@ -54,6 +54,13 @@ struct dom_hubbub_parser {
 	void *mctx;		/**< Pointer to client data */
 };
 
+void _set_document_encoding(dom_document *doc, const char *charset) {
+	if (charset == NULL) {
+		return;
+	}
+	dom_string_create_interned((const uint8_t *) charset, strlen(charset), &doc->encoding);
+}
+
 /* Forward declaration to break reference loop */
 static hubbub_error add_attributes(void *parser, void *node,
 		const hubbub_attribute *attributes, uint32_t n_attributes);
@@ -656,6 +663,7 @@ static hubbub_error change_encoding(void *parser, const char *charset)
 	if (source == HUBBUB_CHARSET_CONFIDENT) {
 		dom_parser->encoding_source = DOM_HUBBUB_ENCODING_SOURCE_DETECTED;
 		dom_parser->encoding = charset;
+		_set_document_encoding(dom_parser->doc, charset);
 		return HUBBUB_OK;
 	}
 
@@ -671,6 +679,7 @@ static hubbub_error change_encoding(void *parser, const char *charset)
 	 * charset is in fact correct */
 	dom_parser->encoding = charset;
 	dom_parser->encoding_source = DOM_HUBBUB_ENCODING_SOURCE_META;
+	_set_document_encoding(dom_parser->doc, charset);
 
 	/* Equal encodings will have the same string pointers */
 	return (charset == name) ? HUBBUB_OK : HUBBUB_ENCODINGCHANGE;
@@ -856,6 +865,8 @@ dom_hubbub_parser_create(dom_hubbub_parser_params *params,
 	}
 	_dom_document_set_id_name(binding->doc, idname);
 	dom_string_unref(idname);
+
+	_set_document_encoding(binding->doc, binding->encoding);
 
 	/* set return parameters */
 	*document = (dom_document *)dom_node_ref(binding->doc);
