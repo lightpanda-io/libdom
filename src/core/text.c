@@ -476,8 +476,8 @@ dom_exception walk_logic_adjacent_text(dom_text *text,
 	dom_node_internal *right = node->next;
 	dom_exception err;
 	bool cont;
-	
-	if (parent->type == DOM_ENTITY_NODE) {
+
+	if (parent != NULL && parent->type == DOM_ENTITY_NODE) {
 		return DOM_NOT_SUPPORTED_ERR;
 	}
 
