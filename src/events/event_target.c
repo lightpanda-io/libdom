@@ -227,12 +227,13 @@ dom_exception _dom_event_target_dispatch(dom_event_target *et,
 			if (dom_string_isequal(le->type, evt->type)) {
 				assert(le->listener->handler != NULL);
 
-				if ((le->capture && 
-						phase == DOM_CAPTURING_PHASE) ||
-				    (le->capture == false && 
-						phase == DOM_BUBBLING_PHASE) ||
-				    (evt->target == evt->current && 
-						phase == DOM_AT_TARGET)) {
+				if ((le->capture &&
+				     phase == DOM_CAPTURING_PHASE) ||
+				    (le->capture == false &&
+				     evt->bubble &&
+				     phase == DOM_BUBBLING_PHASE) ||
+				    (evt->target == evt->current &&
+				     phase == DOM_AT_TARGET)) {
 					le->listener->handler(evt, 
 							le->listener->pw);
 					/* If the handler called

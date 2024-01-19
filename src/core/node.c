@@ -2457,6 +2457,9 @@ dom_exception _dom_node_dispatch_event(dom_event_target *et,
 	ntargets_allocated = 0;
 	ntargets = 0;
 
+	/* The target itself is excluded from the capture/bubbling phases */
+	target = target->parent;
+
 	/* Add interested event listeners to array */
 	for (; target != NULL; target = target->parent) {
 		struct listener_entry *le = target->eti.listeners;
