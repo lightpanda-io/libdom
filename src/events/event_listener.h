@@ -24,5 +24,7 @@ struct dom_event_listener {
 			/**< The document which create this listener */
 };
 
+void* dom_event_listener_get_data(dom_event_listener *listener);
+
 #endif
 

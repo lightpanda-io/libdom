@@ -35,6 +35,11 @@ dom_exception dom_event_listener_create(
 	return DOM_NO_ERR;
 }
 
+void* dom_event_listener_get_data(dom_event_listener *listener)
+{
+	return listener->pw;
+}
+
 /**
  * Claim a new reference on the listener object
  *
