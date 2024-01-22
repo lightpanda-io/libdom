@@ -84,4 +84,9 @@ dom_exception _dom_event_target_dispatch(dom_event_target *et,
 		struct dom_event *evt, dom_event_flow_phase phase,
 		bool *success);
 
+dom_exception _dom_event_target_iter_event_listener(dom_event_target_internal eti,
+		dom_string *type,
+		struct listener_entry *cur, struct listener_entry **next,
+		dom_event_listener **listener);
+
 #endif
