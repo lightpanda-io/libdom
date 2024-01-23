@@ -258,10 +258,12 @@ dom_exception _dom_event_target_dispatch(dom_event_target *et,
  * Iterate on the EventTarget's listeners
  *
  * \param eti      Internal EventTarget object
- * \param type     The event type the event listener listens for
+ * \param type     The event type the event listener listens for,
+ *                 if NULL all listener will be returned
  * \param cur      The current listener entry of the iteration
  * \param next     The next listener entry of the iteration
- * \param listener The returned EventListener
+ * \param listener The returned EventListener, if the event type matches
+ *                 or is NULL
  * \return DOM_NO_ERR on success, appropriate dom_exception on failure.
  *
  * The returned listener will have its reference count increased. It is
@@ -300,7 +302,7 @@ dom_exception _dom_event_target_iter_event_listener(dom_event_target_internal et
 	*next = le;
 
 	/* Check the event type */
-	if (dom_string_isequal(le->type, type)) {
+	if (type == NULL || dom_string_isequal(le->type, type)) {
 		*listener = le->listener;
 		dom_event_listener_ref(le->listener);
 	} else {
