@@ -20,6 +20,8 @@ typedef struct dom_event_listener dom_event_listener;
 dom_exception dom_event_listener_create(
 		handle_event handler, void *pw, dom_event_listener **listener);
 
+void* dom_event_listener_get_data(dom_event_listener *listener);
+
 void dom_event_listener_ref(dom_event_listener *listener);
 void dom_event_listener_unref(dom_event_listener *listener);
 
