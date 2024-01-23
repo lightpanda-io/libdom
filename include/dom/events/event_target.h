@@ -47,7 +47,7 @@ typedef struct dom_event_target_vtable {
 			bool capture);
 	dom_exception (*iter_event_listener)(
 			dom_event_target *et,
-			dom_string *type,
+			dom_string *type, bool capture,
 			struct listener_entry *cur,
 			struct listener_entry **next,
 			struct dom_event_listener **listener);
@@ -117,17 +117,18 @@ static inline dom_exception dom_event_target_remove_event_listener_ns(
 
 static inline dom_exception dom_event_iter_event_listener(
 		dom_event_target *et,
-		dom_string *type,
+		dom_string *type, bool capture,
 		struct listener_entry *cur, struct listener_entry **next,
 		struct dom_event_listener **listener)
 {
-	return ((dom_event_target_vtable *) et->vtable)->iter_event_listener(
-			et, type, cur, next, listener);
+	return ((dom_event_target_vtable *)et->vtable)
+		->iter_event_listener(
+			et, type, capture, cur, next, listener);
 }
-#define dom_event_target_iter_event_listener(et, t, c, n, l)	\
+#define dom_event_target_iter_event_listener(et, t, ct, c, n, l)	\
 		dom_event_target_iter_event_listener(\
 		(dom_event_target *) (et),\
-		(dom_string *) (t),\
+		(dom_string *) (t), (bool) (ct),\
 		(struct listener_entry *) (c), (struct listener_entry **) (n),\
 		(struct dom_event_listener **) (l))
 

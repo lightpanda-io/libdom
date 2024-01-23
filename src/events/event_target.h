@@ -85,7 +85,7 @@ dom_exception _dom_event_target_dispatch(dom_event_target *et,
 		bool *success);
 
 dom_exception _dom_event_target_iter_event_listener(dom_event_target_internal eti,
-		dom_string *type,
+		dom_string *type, bool capture,
 		struct listener_entry *cur, struct listener_entry **next,
 		dom_event_listener **listener);
 

@@ -2637,11 +2637,12 @@ dom_exception _dom_node_dispatch_node_change_event(dom_document *doc,
 }
 
 dom_exception _dom_node_iter_event_listener(dom_event_target *et,
-		dom_string *type,
+	        dom_string *type, bool capture,
 		struct listener_entry *cur, struct listener_entry **next,
 		struct dom_event_listener **listener)
 {
 	assert(et != NULL);
 	dom_node_internal *node_internal = (dom_node_internal *)et;
-	return _dom_event_target_iter_event_listener(node_internal->eti, type, cur, next, listener);
+	return _dom_event_target_iter_event_listener(
+		node_internal->eti, type, capture, cur, next, listener);
 }

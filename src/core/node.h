@@ -105,7 +105,7 @@ dom_exception _dom_node_remove_event_listener_ns(dom_event_target *et,
 dom_exception _dom_node_dispatch_event(dom_event_target *et,
 		struct dom_event *evt, bool *success);
 dom_exception _dom_node_iter_event_listener(dom_event_target *et,
-		dom_string *type,
+	        dom_string *type, bool capture,
 		struct listener_entry *cur, struct listener_entry **next,
 		struct dom_event_listener **listener);
 

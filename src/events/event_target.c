@@ -258,20 +258,23 @@ dom_exception _dom_event_target_dispatch(dom_event_target *et,
  * Iterate on the EventTarget's listeners
  *
  * \param eti      Internal EventTarget object
- * \param type     The event type the event listener listens for,
- *                 if NULL all listener will be returned
+ * \param type     The event type this listener is registered for
+ * \param capture  Whether the listener is registered at the capturing phase
  * \param cur      The current listener entry of the iteration
  * \param next     The next listener entry of the iteration
- * \param listener The returned EventListener, if the event type matches
- *                 or is NULL
+ * \param listener The returned EventListener,
+ *                 if the event type and capture matches or are NULL
  * \return DOM_NO_ERR on success, appropriate dom_exception on failure.
+ *
+ * (If type is NULL, all listener will be returned
+ * regardless of type and capture)
  *
  * The returned listener will have its reference count increased. It is
  * the responsibility of the caller to unref the listener once it has
  * finished with it.
  */
 dom_exception _dom_event_target_iter_event_listener(dom_event_target_internal eti,
-		dom_string *type,
+		dom_string *type, bool capture,
                 struct listener_entry *cur, struct listener_entry **next,
                 dom_event_listener **listener)
 {
@@ -302,7 +305,9 @@ dom_exception _dom_event_target_iter_event_listener(dom_event_target_internal et
 	*next = le;
 
 	/* Check the event type */
-	if (type == NULL || dom_string_isequal(le->type, type)) {
+	if (type == NULL || (dom_string_isequal(le->type, type) &&
+	    capture == le->capture)
+	    ) {
 		*listener = le->listener;
 		dom_event_listener_ref(le->listener);
 	} else {
