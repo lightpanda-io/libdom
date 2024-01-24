@@ -15,6 +15,8 @@
 struct dom_event_listener;
 struct dom_event;
 
+struct listener_entry;
+
 /* Event target is a mixin interface, thus has no concrete implementation. 
  * Subclasses must provide implementations of the event target methods. */
 typedef struct dom_event_target {
@@ -43,6 +45,12 @@ typedef struct dom_event_target_vtable {
 			dom_string *namespace, dom_string *type,
 			struct dom_event_listener *listener,
 			bool capture);
+	dom_exception (*iter_event_listener)(
+			dom_event_target *et,
+			dom_string *type, bool capture,
+			struct listener_entry *cur,
+			struct listener_entry **next,
+			struct dom_event_listener **listener);
 } dom_event_target_vtable;
 
 static inline dom_exception dom_event_target_add_event_listener(
@@ -106,6 +114,23 @@ static inline dom_exception dom_event_target_remove_event_listener_ns(
 		(dom_event_target *) (et), (dom_string *) (n),\
 		(dom_string *) (t), (struct dom_event_listener *) (l),\
 		(bool) (c))
+
+static inline dom_exception dom_event_iter_event_listener(
+		dom_event_target *et,
+		dom_string *type, bool capture,
+		struct listener_entry *cur, struct listener_entry **next,
+		struct dom_event_listener **listener)
+{
+	return ((dom_event_target_vtable *)et->vtable)
+		->iter_event_listener(
+			et, type, capture, cur, next, listener);
+}
+#define dom_event_target_iter_event_listener(et, t, ct, c, n, l)	\
+		dom_event_target_iter_event_listener(\
+		(dom_event_target *) (et),\
+		(dom_string *) (t), (bool) (ct),\
+		(struct listener_entry *) (c), (struct listener_entry **) (n),\
+		(struct dom_event_listener **) (l))
 
 #endif
 

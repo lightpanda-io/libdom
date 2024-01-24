@@ -254,3 +254,64 @@ dom_exception _dom_event_target_dispatch(dom_event_target *et,
 	return DOM_NO_ERR;
 }
 
+/**
+ * Iterate on the EventTarget's listeners
+ *
+ * \param eti      Internal EventTarget object
+ * \param type     The event type this listener is registered for
+ * \param capture  Whether the listener is registered at the capturing phase
+ * \param cur      The current listener entry of the iteration
+ * \param next     The next listener entry of the iteration
+ * \param listener The returned EventListener,
+ *                 if the event type and capture matches or are NULL
+ * \return DOM_NO_ERR on success, appropriate dom_exception on failure.
+ *
+ * (If type is NULL, all listener will be returned
+ * regardless of type and capture)
+ *
+ * The returned listener will have its reference count increased. It is
+ * the responsibility of the caller to unref the listener once it has
+ * finished with it.
+ */
+dom_exception _dom_event_target_iter_event_listener(dom_event_target_internal eti,
+		dom_string *type, bool capture,
+                struct listener_entry *cur, struct listener_entry **next,
+                dom_event_listener **listener)
+{
+	if (cur == NULL) {
+
+		if (eti.listeners == NULL) {
+			/* EventTarget has no listeners */
+			*next = NULL;
+			*listener = NULL;
+			return DOM_NO_ERR;
+		}
+
+		/* If the current entry is not provided,
+		 * set it to the beginning of the EventTarget's listeners list */
+		cur = eti.listeners;
+
+	} else if (cur == eti.listeners) {
+
+		/* if the current entry is the beginning of the EventTarget's listeners,
+		 * stop iteration */
+		*next = NULL;
+		*listener = NULL;
+		return DOM_NO_ERR;
+	}
+
+	/* Set the next entry */
+	struct listener_entry *le = (struct listener_entry *) cur->list.next;
+	*next = le;
+
+	/* Check the event type */
+	if (type == NULL || (dom_string_isequal(le->type, type) &&
+	    capture == le->capture)
+	    ) {
+		*listener = le->listener;
+		dom_event_listener_ref(le->listener);
+	} else {
+		*listener = NULL;
+	}
+	return DOM_NO_ERR;
+}
