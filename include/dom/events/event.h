@@ -113,4 +113,12 @@ dom_exception _dom_event_set_is_trusted(dom_event *evt, bool trusted);
 #define dom_event_set_is_trusted(e,t) _dom_event_set_is_trusted(	\
 		(dom_event *) (e), (bool) (t))
 
+dom_exception _dom_event_get_internal_type(dom_event *evt, unsigned int *result);
+#define dom_event_get_internal_type(e,t) _dom_event_get_internal_type(	\
+		(dom_event *) (e), (unsigned int *) (r))
+
+dom_exception _dom_event_set_internal_type(dom_event *evt, unsigned int type);
+#define dom_event_set_internal_type(e,t) _dom_event_set_internal_type(	\
+		(dom_event *) (e), (unsigned int) (t))
+
 #endif

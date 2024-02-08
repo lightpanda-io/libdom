@@ -59,6 +59,8 @@ dom_exception _dom_event_initialise(dom_event *evt)
 	evt->is_initialised = false;
 	evt->is_trusted = true;
 
+	evt->internal_type = 0;
+
 	return DOM_NO_ERR;
 }
 
@@ -393,6 +395,34 @@ dom_exception _dom_event_get_is_trusted(dom_event *evt, bool *result)
 dom_exception _dom_event_set_is_trusted(dom_event *evt, bool trusted)
 {
 	evt->is_trusted = trusted;
+
+	return DOM_NO_ERR;
+}
+
+/**
+ * Get the internal type of this event
+ *
+ * \param evt     The event object
+ * \param result  The returned value
+ * \return DOM_NO_ERR.
+ */
+dom_exception _dom_event_get_internal_type(dom_event *evt, unsigned int *result)
+{
+	*result = evt->internal_type;
+
+	return DOM_NO_ERR;
+}
+
+/**
+ * Set the internal type of this event
+ *
+ * \param evt     The event object
+ * \param type 	  The internal type
+ * \return DOM_NO_ERR.
+ */
+dom_exception _dom_event_set_internal_type(dom_event *evt, unsigned int type)
+{
+	evt->internal_type = type;
 
 	return DOM_NO_ERR;
 }
