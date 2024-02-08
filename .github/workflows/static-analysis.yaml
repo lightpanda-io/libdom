@@ -45,17 +45,25 @@ jobs:
           ns-clone -d -s
           ns-make-libs install
 
+    # TODO the feature doesn't work as expected, maybe due to a prive repo but
+    # not sure.
+    # see https://github.com/github/codeql-action/issues/572
+    # I (Pierre) continue-on-error for now.
+
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
+      continue-on-error: true
 
     - name: Build Library
       run: |
           export TARGET_WORKSPACE="$(pwd)/projects"
           source projects/env.sh
           make -j"$(nproc)"
+      continue-on-error: true
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
+      continue-on-error: true
