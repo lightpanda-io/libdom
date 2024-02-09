@@ -426,3 +426,17 @@ dom_exception _dom_event_set_internal_type(dom_event *evt, unsigned int type)
 
 	return DOM_NO_ERR;
 }
+
+/**
+ * Set the target
+ *
+ * \param evt     The event object
+ * \param et 	  The event target
+ * \return DOM_NO_ERR.
+ */
+dom_exception _dom_event_set_target(dom_event *evt, dom_event_target *et)
+{
+	evt->target = et;
+
+	return DOM_NO_ERR;
+}

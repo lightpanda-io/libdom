@@ -121,4 +121,7 @@ dom_exception _dom_event_set_internal_type(dom_event *evt, unsigned int type);
 #define dom_event_set_internal_type(e,t) _dom_event_set_internal_type(	\
 		(dom_event *) (e), (unsigned int) (t))
 
+dom_exception _dom_event_set_target(dom_event *evt, dom_event_target *et);
+#define dom_event_set_target(e,t) _dom_event_set_target(	\
+		(dom_event *) (e), (dom_event_target *) (t))
 #endif
