@@ -50,6 +50,8 @@ struct dom_event {
 	bool in_dispatch;	/**< Whether this event is in dispatch */
 	bool is_initialised;	/**< Whether this event is initialised */
 	bool is_trusted;	/**< Whether this event is trusted */
+
+	unsigned int internal_type; /**< always 0 for a pure libdom event. */
 };
 
 /* Destructor */
