@@ -15,6 +15,7 @@
 #include <dom/events/event.h>
 
 #include "utils/list.h"
+#include "utils/utils.h"
 
 /* The private virtual table */
 struct dom_event_private_vtable {
