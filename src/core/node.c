@@ -2411,8 +2411,7 @@ static inline dom_exception _dom_event_targets_expand(
  *                 false, else it is true.
  * \return DOM_NO_ERR                     on success
  *         DOM_DISPATCH_REQUEST_ERR       If the event is already in dispatch
- *         DOM_UNSPECIFIED_EVENT_TYPE_ERR If the type of the event is Null or
- *                                        empty string.
+ *         DOM_UNSPECIFIED_EVENT_TYPE_ERR If the type of the event is Null.
  *         DOM_NOT_SUPPORTED_ERR          If the event is not created by 
  *                                        Document.createEvent
  *         DOM_INVALID_CHARACTER_ERR      If the type of this event is not a
@@ -2439,7 +2438,7 @@ dom_exception _dom_node_dispatch_event(dom_event_target *et,
 		evt->in_dispatch = true;
 	}
 
-	if (evt->type == NULL || dom_string_byte_length(evt->type) == 0) {
+	if (evt->type == NULL) {
 		return DOM_UNSPECIFIED_EVENT_TYPE_ERR;
 	}
 
