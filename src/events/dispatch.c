@@ -27,6 +27,9 @@ dom_exception __dom_dispatch_node_change_event(dom_document *doc,
 		dom_event_target *et, dom_event_target *related, 
 		dom_mutation_type change, bool *success)
 {
+	// some nodes have empty parent, and send a null target.
+	if (et == NULL) return DOM_NO_ERR;
+
 	struct dom_mutation_event *evt;
 	dom_string *type = NULL;
 	dom_exception err;
@@ -73,6 +76,9 @@ cleanup:
 dom_exception __dom_dispatch_node_change_document_event(dom_document *doc,
 		dom_event_target *et, dom_mutation_type change, bool *success)
 {
+	// some nodes have empty parent, and send a null target.
+	if (et == NULL) return DOM_NO_ERR;
+
 	struct dom_mutation_event *evt;
 	dom_string *type = NULL;
 	dom_exception err;
@@ -121,9 +127,12 @@ cleanup:
  */
 dom_exception __dom_dispatch_attr_modified_event(dom_document *doc,
 		dom_event_target *et, dom_string *prev, dom_string *new,
-		dom_event_target *related, dom_string *attr_name, 
+		dom_event_target *related, dom_string *attr_name,
 		dom_mutation_type change, bool *success)
 {
+	// some nodes have empty parent, and send a null target.
+	if (et == NULL) return DOM_NO_ERR;
+
 	struct dom_mutation_event *evt;
 	dom_string *type = NULL;
 	dom_exception err;
@@ -168,6 +177,9 @@ dom_exception __dom_dispatch_characterdata_modified_event(
 		dom_document *doc, dom_event_target *et,
 		dom_string *prev, dom_string *new, bool *success)
 {
+	// some nodes have empty parent, and send a null target.
+	if (et == NULL) return DOM_NO_ERR;
+
 	struct dom_mutation_event *evt;
 	dom_string *type = NULL;
 	dom_exception err;
@@ -204,6 +216,9 @@ cleanup:
 dom_exception __dom_dispatch_subtree_modified_event(dom_document *doc,
 		dom_event_target *et, bool *success)
 {
+	// some nodes have empty parent, and send a null target.
+	if (et == NULL) return DOM_NO_ERR;
+
 	struct dom_mutation_event *evt;
 	dom_string *type = NULL;
 	dom_exception err;
@@ -245,6 +260,9 @@ dom_exception _dom_dispatch_generic_event(dom_document *doc,
 		dom_event_target *et, dom_string *event_name,
 		bool bubble, bool cancelable, bool *success)
 {
+	// some nodes have empty parent, and send a null target.
+	if (et == NULL) return DOM_NO_ERR;
+
 	struct dom_event *evt;
 	dom_exception err;
 
