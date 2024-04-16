@@ -15,6 +15,7 @@
 #include <stdio.h>
 #endif
 #include "utils/hashtable.h"
+#include "utils/utils.h"
 
 #include <libwapcaplet/libwapcaplet.h>
 
