@@ -241,9 +241,17 @@ dom_exception _dom_event_target_dispatch(dom_event_target *et,
 					 * break */
 					if (evt->stop_now == true)
 						break;
+
+					// A listener can modify the event target listeners list
+					// during the loop. At this stage, `le` can be removed from
+					// the list and its memory freed.
+					// First we need to detect if `le` still exists.
+					if (!list_has((struct list_entry *)eti->listeners, (struct list_entry *)le)) {
+						// `le` has been deleted.
+						break;
+					}
 				}
 			}
-
 			le = (struct listener_entry *) le->list.next;
 		} while (le != eti->listeners);
 	}

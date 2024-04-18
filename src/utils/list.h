@@ -13,6 +13,7 @@
 #define dom_utils_list_h_
 
 #include <stddef.h>
+#include <stdbool.h>
 
 struct list_entry {
 	struct list_entry *prev;
@@ -56,6 +57,23 @@ static inline void list_del(struct list_entry *ent)
 
 	ent->prev = ent;
 	ent->next = ent;
+}
+
+/**
+ * Detect if an entry is in the list
+ *
+ * \param entry  The entry need to be deleted from the list
+ */
+static inline bool list_has(struct list_entry *head, struct list_entry *ent)
+{
+	struct list_entry *cur = head;
+	do {
+		if (cur == ent) {
+			return true;
+		}
+		cur = cur->next;
+	} while (cur != head);
+	return false;
 }
 
 #endif
