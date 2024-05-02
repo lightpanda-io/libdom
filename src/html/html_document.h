@@ -155,6 +155,7 @@ bool anchors_callback(struct dom_node_internal *node, void *ctx);
 	_dom_html_document_get_elements_by_tag_name_ns, \
 	_dom_document_get_element_by_id, \
 	_dom_document_get_input_encoding, \
+	_dom_document_set_input_encoding, \
 	_dom_document_get_xml_encoding, \
 	_dom_document_get_xml_standalone, \
 	_dom_document_set_xml_standalone, \

@@ -98,6 +98,8 @@ typedef struct dom_document_vtable {
 			struct dom_element **result);
 	dom_exception (*dom_document_get_input_encoding)(
 			struct dom_document *doc, dom_string **result);
+	dom_exception (*dom_document_set_input_encoding)(
+			struct dom_document *doc, dom_string *encoding);
 	dom_exception (*dom_document_get_xml_encoding)(struct dom_document *doc,
 			dom_string **result);
 	dom_exception (*dom_document_get_xml_standalone)(
@@ -328,6 +330,15 @@ static inline dom_exception dom_document_get_input_encoding(
 }
 #define dom_document_get_input_encoding(d, r) dom_document_get_input_encoding(\
 		(dom_document *) (d), (r))
+
+static inline dom_exception dom_document_set_input_encoding(
+		struct dom_document *doc, dom_string *encoding)
+{
+	return ((dom_document_vtable *) ((dom_node *) doc)->vtable)->
+			dom_document_set_input_encoding(doc, encoding);
+}
+#define dom_document_set_input_encoding(d, e) dom_document_set_input_encoding(\
+		(dom_document *) (d), (e))
 
 static inline dom_exception dom_document_get_xml_encoding(
 		struct dom_document *doc, dom_string **result)
