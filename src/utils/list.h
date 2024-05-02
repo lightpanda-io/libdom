@@ -68,6 +68,9 @@ static inline bool list_has(struct list_entry *head, struct list_entry *ent)
 {
 	struct list_entry *cur = head;
 	do {
+		if (cur == NULL) {
+			return false;
+		}
 		if (cur == ent) {
 			return true;
 		}
