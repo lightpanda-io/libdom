@@ -37,6 +37,10 @@ typedef struct dom_html_document_vtable {
 			struct dom_html_element **body);
 	dom_exception (*set_body)(dom_html_document *doc,
 			struct dom_html_element *body);
+	dom_exception (*get_current_script)(dom_html_document *doc,
+			struct dom_html_element **script);
+	dom_exception (*set_current_script)(dom_html_document *doc,
+			struct dom_html_element *script);
 	dom_exception (*get_images)(dom_html_document *doc,
 			struct dom_html_collection **col);
 	dom_exception (*get_applets)(dom_html_document *doc,
@@ -125,6 +129,26 @@ static inline dom_exception dom_html_document_set_body(dom_html_document *doc,
 }
 #define dom_html_document_set_body(d, b) \
 		dom_html_document_set_body((dom_html_document *) (d), \
+				(struct dom_html_element **) (b))
+
+static inline dom_exception dom_html_document_get_current_script(dom_html_document *doc,
+		struct dom_html_element **script)
+{
+	return ((dom_html_document_vtable *) ((dom_node *) doc)->vtable)->
+		get_current_script(doc, script);
+}
+#define dom_html_document_get_current_script(d, b) \
+		dom_html_document_get_current_script((dom_html_document *) (d), \
+				(struct dom_html_element **) (b))
+
+static inline dom_exception dom_html_document_set_current_script(dom_html_document *doc,
+		struct dom_html_element *script)
+{
+	return ((dom_html_document_vtable *) ((dom_node *) doc)->vtable)->
+		set_current_script(doc, script);
+}
+#define dom_html_document_set_current_script(d, b) \
+		dom_html_document_set_current_script((dom_html_document *) (d), \
 				(struct dom_html_element **) (b))
 
 static inline dom_exception dom_html_document_get_images(dom_html_document *doc,
