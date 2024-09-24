@@ -1191,6 +1191,20 @@ dom_exception _dom_html_document_set_body(dom_html_document *doc,
 	return DOM_NO_ERR;
 }
 
+dom_exception _dom_html_document_get_current_script(dom_html_document *doc,
+		struct dom_html_element **script)
+{
+	*script = doc->current_script;
+	return DOM_NO_ERR;
+}
+
+dom_exception _dom_html_document_set_current_script(dom_html_document *doc,
+		struct dom_html_element *script)
+{
+	doc->current_script = script;
+	return DOM_NO_ERR;
+}
+
 /**
  * Callback for creating the images collection
  *

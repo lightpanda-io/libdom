@@ -25,7 +25,9 @@ struct dom_html_document {
 	dom_string *url;	/**< HTML document URL */
 	dom_string *cookie;	/**< HTML document cookie */
 	dom_html_element *body;	/**< HTML BodyElement */
-	
+
+	dom_html_element *current_script; /**< current script */
+
 	/** Cached strings for html objects to use */
 	dom_string **memoised;
 	/** Cached strings for HTML element names */
@@ -83,7 +85,11 @@ dom_exception _dom_html_document_get_cookie(dom_html_document *doc,
 		dom_string **cookie);
 dom_exception _dom_html_document_set_cookie(dom_html_document *doc,
 		dom_string *cookie);
- 
+dom_exception _dom_html_document_set_current_script(dom_html_document *doc,
+					     dom_html_element *script);
+dom_exception _dom_html_document_get_current_script(dom_html_document *node,
+					     dom_html_element **result);
+
 dom_exception _dom_html_document_open(dom_html_document *doc);
 dom_exception _dom_html_document_close(dom_html_document *doc);
 dom_exception _dom_html_document_write(dom_html_document *doc,
@@ -102,6 +108,8 @@ dom_exception _dom_html_document_get_elements_by_name(dom_html_document *doc,
 	_dom_html_document_get_url, \
 	_dom_html_document_get_body, \
 	_dom_html_document_set_body, \
+	_dom_html_document_get_current_script, \
+	_dom_html_document_set_current_script, \
 	_dom_html_document_get_images, \
 	_dom_html_document_get_applets, \
 	_dom_html_document_get_links, \
