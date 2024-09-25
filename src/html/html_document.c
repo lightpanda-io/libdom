@@ -133,6 +133,7 @@ dom_exception _dom_html_document_initialise(dom_html_document *doc,
 	doc->url = NULL;
 	doc->cookie = NULL;
 	doc->body = NULL;
+	doc->current_script = NULL;
 
 	doc->memoised = calloc(sizeof(dom_string *), hds_COUNT);
 	if (doc->memoised == NULL) {
