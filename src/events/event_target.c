@@ -323,3 +323,20 @@ dom_exception _dom_event_target_iter_event_listener(dom_event_target_internal et
 	}
 	return DOM_NO_ERR;
 }
+
+/**
+ * Retrieve the type of an event_target
+ *
+ * \param node    The eti to retrieve the type of
+ * \param result  Pointer to location to receive node type
+ * \return DOM_NO_ERR.
+ */
+dom_exception _dom_event_target_get_type(dom_event_target_internal eti,
+		dom_event_target_type *result)
+{
+	UNUSED(eti);
+
+	*result = DOM_EVENT_TARGET_NODE;
+
+	return DOM_NO_ERR;
+}

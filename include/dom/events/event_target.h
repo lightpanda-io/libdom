@@ -17,7 +17,14 @@ struct dom_event;
 
 struct listener_entry;
 
-/* Event target is a mixin interface, thus has no concrete implementation. 
+/**
+ * Type of a DOM event_target
+ */
+typedef enum {
+	DOM_EVENT_TARGET_NODE		= 1,
+} dom_event_target_type;
+
+/* Event target is a mixin interface, thus has no concrete implementation.
  * Subclasses must provide implementations of the event target methods. */
 typedef struct dom_event_target {
 	void *vtable;
@@ -51,6 +58,9 @@ typedef struct dom_event_target_vtable {
 			struct listener_entry *cur,
 			struct listener_entry **next,
 			struct dom_event_listener **listener);
+	dom_exception (*dom_event_target_get_type)(
+			dom_event_target *et,
+			dom_event_target_type *result);
 } dom_event_target_vtable;
 
 static inline dom_exception dom_event_target_add_event_listener(
@@ -132,5 +142,13 @@ static inline dom_exception dom_event_iter_event_listener(
 		(struct listener_entry *) (c), (struct listener_entry **) (n),\
 		(struct dom_event_listener **) (l))
 
+static inline dom_exception dom_event_target_get_type(dom_event_target *et,
+		dom_event_target_type *result)
+{
+	return ((dom_event_target_vtable *) et->vtable)
+		->dom_event_target_get_type(et, result);
+}
+#define dom_event_target_get_type(et, r) dom_event_target_get_type( \
+		(dom_event_target *) (et), (dom_event_target_type *) (r))
 #endif
 
