@@ -134,6 +134,7 @@ dom_exception _dom_html_document_initialise(dom_html_document *doc,
 	doc->cookie = NULL;
 	doc->body = NULL;
 	doc->current_script = NULL;
+	doc->location = NULL;
 
 	doc->memoised = calloc(sizeof(dom_string *), hds_COUNT);
 	if (doc->memoised == NULL) {
@@ -1203,6 +1204,20 @@ dom_exception _dom_html_document_set_current_script(dom_html_document *doc,
 		struct dom_html_element *script)
 {
 	doc->current_script = script;
+	return DOM_NO_ERR;
+}
+
+dom_exception _dom_html_document_get_location(dom_html_document *doc,
+		void **location)
+{
+	*location = doc->location;
+	return DOM_NO_ERR;
+}
+
+dom_exception _dom_html_document_set_location(dom_html_document *doc,
+		void *location)
+{
+	doc->location = location;
 	return DOM_NO_ERR;
 }
 
