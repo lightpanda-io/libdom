@@ -41,6 +41,10 @@ typedef struct dom_html_document_vtable {
 			struct dom_html_element **script);
 	dom_exception (*set_current_script)(dom_html_document *doc,
 			struct dom_html_element *script);
+	dom_exception (*get_location)(dom_html_document *doc,
+			void **location);
+	dom_exception (*set_location)(dom_html_document *doc,
+			void *location);
 	dom_exception (*get_images)(dom_html_document *doc,
 			struct dom_html_collection **col);
 	dom_exception (*get_applets)(dom_html_document *doc,
@@ -150,6 +154,26 @@ static inline dom_exception dom_html_document_set_current_script(dom_html_docume
 #define dom_html_document_set_current_script(d, b) \
 		dom_html_document_set_current_script((dom_html_document *) (d), \
 				(struct dom_html_element **) (b))
+
+static inline dom_exception dom_html_document_get_location(dom_html_document *doc,
+		void **location)
+{
+	return ((dom_html_document_vtable *) ((dom_node *) doc)->vtable)->
+		get_location(doc, location);
+}
+#define dom_html_document_get_location(d, l) \
+		dom_html_document_get_location((dom_html_document *) (d), \
+				(void **) (l))
+
+static inline dom_exception dom_html_document_set_location(dom_html_document *doc,
+		void *location)
+{
+	return ((dom_html_document_vtable *) ((dom_node *) doc)->vtable)->
+		set_location(doc, location);
+}
+#define dom_html_document_set_location(d, l) \
+		dom_html_document_set_location((dom_html_document *) (d), \
+				(void **) (l))
 
 static inline dom_exception dom_html_document_get_images(dom_html_document *doc,
 		struct dom_html_collection **col)
