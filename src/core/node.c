@@ -2645,3 +2645,11 @@ dom_exception _dom_node_iter_event_listener(dom_event_target *et,
 	return _dom_event_target_iter_event_listener(
 		node_internal->eti, type, capture, cur, next, listener);
 }
+
+dom_exception _dom_node_event_target_get_type(dom_event_target *et,
+		dom_event_target_type *result)
+{
+	assert(et != NULL);
+	dom_node_internal *node_internal = (dom_node_internal *)et;
+	return _dom_event_target_get_type(node_internal->eti, result);
+}
