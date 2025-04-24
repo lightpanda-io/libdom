@@ -1557,7 +1557,7 @@ dom_exception _dom_node_lookup_prefix(dom_node_internal *node,
 		dom_string *namespace, dom_string **result)
 {
 	if (node->parent != NULL)
-		return dom_node_lookup_prefix(node, namespace, result);
+		return dom_node_lookup_prefix(node->parent, namespace, result);
 	else
 		*result = NULL;
 
@@ -1576,7 +1576,7 @@ dom_exception _dom_node_is_default_namespace(dom_node_internal *node,
 		dom_string *namespace, bool *result)
 {
 	if (node->parent != NULL)
-		return dom_node_is_default_namespace(node, namespace, result);
+		return dom_node_is_default_namespace(node->parent, namespace, result);
 	else
 		*result = false;
 	return DOM_NO_ERR;

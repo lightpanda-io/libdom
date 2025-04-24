@@ -1467,6 +1467,11 @@ dom_exception _dom_element_lookup_namespace(dom_node_internal *node,
 		return dom_element_get_attribute(node, xmlns, result);
 	}
 
+	if (node->parent == NULL) {
+		*result = NULL;
+		return DOM_NO_ERR;
+	}
+
 	return dom_node_lookup_namespace(node->parent, prefix, result);
 }
 
