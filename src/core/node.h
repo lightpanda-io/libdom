@@ -108,6 +108,8 @@ dom_exception _dom_node_iter_event_listener(dom_event_target *et,
 	        dom_string *type, bool capture,
 		struct listener_entry *cur, struct listener_entry **next,
 		struct dom_event_listener **listener);
+dom_exception _dom_node_event_target_get_type(dom_event_target *et,
+		dom_event_target_type *result);
 
 /* The DOM Node's vtable methods */
 dom_exception _dom_node_get_node_name(dom_node_internal *node,
@@ -195,7 +197,8 @@ dom_exception _dom_node_get_user_data(const dom_node_internal *node,
 	_dom_node_dispatch_event, \
 	_dom_node_add_event_listener_ns, \
 	_dom_node_remove_event_listener_ns, \
-	_dom_node_iter_event_listener
+	_dom_node_iter_event_listener, \
+	_dom_node_event_target_get_type
 
 #define DOM_NODE_VTABLE \
 	_dom_node_try_destroy, \
