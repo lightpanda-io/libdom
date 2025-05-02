@@ -51,6 +51,9 @@ dom_exception _dom_event_initialise(dom_event *evt)
 	evt->custom = false;
 
 	evt->type = NULL;
+	evt->current = NULL;
+	evt->target = NULL;
+	evt->phase = 0;
 
 	evt->namespace = NULL;
 
