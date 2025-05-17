@@ -210,6 +210,9 @@ dom_exception _dom_node_contains(struct dom_node_internal *node,
 #define dom_node_contains(n, o, c) \
 	_dom_node_contains((dom_node_internal *)(n), (dom_node_internal *)(o), (c))
 
+void *_dom_node_get_embedder_data(struct dom_node_internal *node);
+void _dom_node_set_embedder_data(struct dom_node_internal *node, void *data);
+
 /* All the rest are virtual */
 
 static inline dom_exception dom_node_get_node_name(struct dom_node *node,

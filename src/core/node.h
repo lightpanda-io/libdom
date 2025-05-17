@@ -76,6 +76,8 @@ struct dom_node_internal {
 	struct list_entry pending_list; /**< The document delete pending list */
 
 	dom_event_target_internal eti;	/**< The EventTarget interface */
+
+	void *embedder_data; /* arbitrary embedders data to associate with this node */
 };
 
 dom_node_internal * _dom_node_create(void);
