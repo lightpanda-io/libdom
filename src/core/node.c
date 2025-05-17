@@ -149,6 +149,7 @@ dom_exception _dom_node_initialise(dom_node_internal *node,
 		dom_string *namespace, dom_string *prefix)
 {
 	node->owner = doc;
+	node->embedder_data = NULL;
 
 	if (name != NULL)
 		node->name = dom_string_ref(name);
@@ -323,6 +324,23 @@ dom_exception _dom_node_contains(struct dom_node_internal *node,
 	return DOM_NO_ERR;
 }
 
+/**
+ * Retrieves the embedders data
+**/
+void *_dom_node_get_embedder_data(struct dom_node_internal *node)
+{
+       assert(node != NULL);
+       return node->embedder_data;
+}
+
+/**
+ * set the embedders data
+**/
+void _dom_node_set_embedder_data(struct dom_node_internal *node, void *data)
+{
+       assert(node != NULL);
+       node->embedder_data = data;
+}
 
 /* ---------------------------------------------------------------------*/
 
