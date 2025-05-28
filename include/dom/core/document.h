@@ -33,6 +33,7 @@ struct dom_text;
 struct lwc_string_s;
 
 typedef struct dom_document dom_document;
+typedef void (*dom_script_added_callback)(void *ctx, struct dom_element *element);
 
 /**
  * Quirks mode flag
@@ -480,3 +481,8 @@ static inline dom_exception dom_document_set_quirks_mode(
 	dom_document_set_quirks_mode((dom_document *) (d), (q))
 
 #endif
+
+void _dom_document_set_script_added_callback(
+	dom_document *doc,
+	void *ctx,
+	dom_script_added_callback callback);
