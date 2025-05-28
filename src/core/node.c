@@ -37,6 +37,7 @@
 #include "utils/utils.h"
 #include "utils/validate.h"
 #include "events/mutation_event.h"
+#include "html/html_element.h"
 
 static bool _dom_node_permitted_child(const dom_node_internal *parent, 
 		const dom_node_internal *child);
@@ -2119,6 +2120,10 @@ dom_exception _dom_node_attach_range(dom_node_internal *first,
 	else
 		parent->last_child = last;
 
+
+	void* callback_ctx = parent->owner->script_added_callback_ctx;
+	dom_script_added_callback callback = parent->owner->script_added_callback;
+
 	for (n = first; n != last->next; n = n->next) {
 		n->parent = parent;
 		/* Dispatch a DOMNodeInserted event */
@@ -2126,6 +2131,12 @@ dom_exception _dom_node_attach_range(dom_node_internal *first,
 				n, parent, DOM_MUTATION_ADDITION, &success);
 		if (err != DOM_NO_ERR)
 			return err;
+
+		if (callback != NULL) {
+			if (n->type == DOM_ELEMENT_NODE && ((struct dom_html_element *)n)->type == DOM_HTML_ELEMENT_TYPE_SCRIPT) {
+				callback(callback_ctx, (struct dom_element *)n);
+			}
+		}
 	}
 
 	success = true;

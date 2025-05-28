@@ -140,6 +140,8 @@ dom_exception _dom_document_initialise(dom_document *doc,
 	}
 
 	doc->nodelists = NULL;
+	doc->script_added_callback = NULL;
+	doc->script_added_callback_ctx = NULL;
 
 	err = _dom_node_initialise(&doc->base, doc, DOM_DOCUMENT_NODE,
 			name, NULL, NULL, NULL);
@@ -320,6 +322,9 @@ bool _dom_document_finalise(dom_document *doc)
 	/* Now, the first_child and last_child should be null */
 	doc->base.first_child = NULL;
 	doc->base.last_child = NULL;
+
+	doc->script_added_callback = NULL;
+	doc->script_added_callback_ctx = NULL;
 
 	/* Ensure list of nodes pending deletion is empty. If not,
 	 * then we can't yet destroy the document (its destruction will
@@ -1264,6 +1269,14 @@ dom_exception _dom_document_set_text_content(dom_node_internal *node,
 	UNUSED(content);
 	
 	return DOM_NO_ERR;
+}
+
+void _dom_document_set_script_added_callback(dom_document *doc,
+			void *ctx,
+			dom_script_added_callback callback)
+{
+	doc->script_added_callback = callback;
+	doc->script_added_callback_ctx = ctx;
 }
 
 /*-----------------------------------------------------------------------*/

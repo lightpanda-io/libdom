@@ -64,6 +64,10 @@ struct dom_document {
 				/**< Document is in quirks mode */
 	dom_string *_memo_empty;	/**< The string ''. */
 
+
+	void* script_added_callback_ctx;
+	dom_script_added_callback script_added_callback;
+
 	/* Memoised event strings */
 	dom_string *_memo_domnodeinserted; /**< DOMNodeInserted */
 	dom_string *_memo_domnoderemoved;  /**< DOMNodeRemoved */
