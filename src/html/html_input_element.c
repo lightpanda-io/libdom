@@ -67,6 +67,8 @@ dom_exception _dom_html_input_element_initialise(
 	ele->default_value_set = false;
 	ele->checked = false;
 	ele->checked_set = false;
+	ele->value = NULL;
+	ele->value_set = false;
 
 	return _dom_html_element_initialise(params, &ele->base);
 }
@@ -81,6 +83,10 @@ void _dom_html_input_element_finalise(struct dom_html_input_element *ele)
 	if (ele->default_value != NULL) {
 		dom_string_unref(ele->default_value);
 		ele->default_value = NULL;
+	}
+	if (ele->value != NULL) {
+		dom_string_unref(ele->value);
+		ele->value = NULL;
 	}
 
 	_dom_html_element_finalise(&ele->base);
@@ -171,8 +177,7 @@ dom_exception dom_html_input_element_get_checked(dom_html_input_element *ele,
 		return DOM_NO_ERR;
 	}
 
-	return dom_html_element_get_bool_property(&ele->base, "checked",
-			SLEN("checked"), checked);
+	return dom_html_input_element_get_default_checked(ele, checked);
 }
 
 /**
@@ -185,8 +190,55 @@ dom_exception dom_html_input_element_get_checked(dom_html_input_element *ele,
 dom_exception dom_html_input_element_set_checked(dom_html_input_element *ele,
 		bool checked)
 {
-	return dom_html_element_set_bool_property(&ele->base, "checked",
+	dom_exception result = dom_html_element_set_bool_property(&ele->base, "checked",
 			SLEN("checked"), checked);
+
+	ele->checked_set = true;
+	ele->checked = checked;
+
+	return result;
+}
+
+/**
+ * Get the value property
+ *
+ * \param ele       The dom_html_input_element object
+ * \param value     The returned status
+ * \return DOM_NO_ERR on success, appropriate dom_exception on failure.
+ */
+dom_exception dom_html_input_element_get_value(dom_html_input_element *ele,
+		dom_string **value)
+{
+	if(ele->value_set) {
+		*value = ele->value;
+		if (*value != NULL)
+			dom_string_ref(*value);
+		return DOM_NO_ERR;
+	}
+
+	return dom_html_input_element_get_default_value(ele, value);
+}
+
+/**
+ * Set the value property
+ *
+ * \param ele       The dom_html_input_element object
+ * \param value     The status
+ * \return DOM_NO_ERR on success, appropriate dom_exception on failure.
+ */
+dom_exception dom_html_input_element_set_value(
+	dom_html_input_element *ele, dom_string *value)
+{
+	if (ele->value != NULL)
+		dom_string_unref(ele->value);
+
+	ele->value = value;
+	ele->value_set = true;
+
+	if (ele->value != NULL)
+		dom_string_ref(ele->value);
+
+	return DOM_NO_ERR;
 }
 
 /**
@@ -346,6 +398,9 @@ dom_exception _dom_html_input_element_copy_internal(
 	new->default_value_set = old->default_value_set;
 	new->checked = old->checked;
 	new->checked_set = old->checked_set;
+	new->value = old->value == NULL ?
+			NULL : dom_string_ref(old->value);
+	new->value_set = old->value_set;
 
 	return DOM_NO_ERR;
 }
@@ -398,7 +453,6 @@ SIMPLE_GET_SET(name);
 SIMPLE_GET_SET(src);
 SIMPLE_GET(type);
 SIMPLE_GET_SET(use_map);
-SIMPLE_GET_SET(value);
 
 dom_exception dom_html_input_element_get_size(
 	dom_html_input_element *input, dom_ulong *size)
