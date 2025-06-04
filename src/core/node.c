@@ -264,6 +264,7 @@ void _dom_node_finalise(dom_node_internal *node)
 	node->last_child = NULL;
 	node->first_child = NULL;
 	node->parent = NULL;
+	node->embedder_data = NULL;
 
 	if (node->value != NULL) {
 		dom_string_unref(node->value);
@@ -1907,6 +1908,7 @@ dom_exception _dom_node_copy_internal(dom_node_internal *old,
 	new->last_child = NULL;
 	new->previous = NULL;
 	new->next = NULL;
+	new->embedder_data = NULL;
 
 	assert(old->owner != NULL);
 
