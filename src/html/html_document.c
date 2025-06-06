@@ -569,6 +569,10 @@ _dom_html_document_create_element_internal(
 	params.namespace = namespace;
 	params.prefix = prefix;
 
+	exc = html->create_element_external(html, &params, result);
+	if (exc != DOM_NO_ERR || *result != NULL)
+		return exc;
+
 	switch(params.type) {
 	case DOM_HTML_ELEMENT_TYPE__COUNT:
 		assert(params.type != DOM_HTML_ELEMENT_TYPE__COUNT);

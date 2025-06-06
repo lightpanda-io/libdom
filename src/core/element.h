@@ -195,7 +195,7 @@ struct dom_element_protected_vtable {
 			dom_string **parsed);
 			/**< Called by dom_attr_set_value, and used to check
 			 *   whether the new attribute value is valid and 
-			 *   return a valid on if it is not
+			 *   return a valid one if it is not
 			 */
 };
 
