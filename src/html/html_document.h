@@ -33,6 +33,8 @@ struct dom_html_document {
 	dom_string **memoised;
 	/** Cached strings for HTML element names */
 	dom_string **elements;
+
+	dom_exception (*create_element_external)(dom_html_element_create_params *params, dom_html_element **res);
 };
 
 #include "html_document_strings.h"

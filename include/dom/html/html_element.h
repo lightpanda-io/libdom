@@ -12,6 +12,7 @@
 #include <dom/html/html_elements.h>
 
 typedef struct dom_html_element dom_html_element;
+typedef struct dom_html_element_create_params dom_html_element_create_params;
 
 typedef struct dom_html_element_vtable {
 	struct dom_element_vtable base;

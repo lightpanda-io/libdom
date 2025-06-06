@@ -135,6 +135,7 @@ dom_exception _dom_html_document_initialise(dom_html_document *doc,
 	doc->body = NULL;
 	doc->current_script = NULL;
 	doc->location = NULL;
+	doc->create_element_external = NULL;
 
 	doc->memoised = calloc(sizeof(dom_string *), hds_COUNT);
 	if (doc->memoised == NULL) {
@@ -568,6 +569,12 @@ _dom_html_document_create_element_internal(
 	params.doc = html;
 	params.namespace = namespace;
 	params.prefix = prefix;
+
+	if (html->create_element_external != NULL) {
+		exc = html->create_element_external(&params, result);
+		if (exc != DOM_NO_ERR || *result != NULL)
+			return exc;
+	}
 
 	switch(params.type) {
 	case DOM_HTML_ELEMENT_TYPE__COUNT:
