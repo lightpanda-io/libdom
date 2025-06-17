@@ -2123,8 +2123,8 @@ dom_exception _dom_node_attach_range(dom_node_internal *first,
 		parent->last_child = last;
 
 
-	void* callback_ctx = parent->owner->script_added_callback_ctx;
-	dom_script_added_callback callback = parent->owner->script_added_callback;
+	void* callback_ctx = parent->owner->element_added_callback_ctx;
+	dom_element_added_callback callback = parent->owner->element_added_callback;
 
 	for (n = first; n != last->next; n = n->next) {
 		n->parent = parent;
@@ -2135,7 +2135,7 @@ dom_exception _dom_node_attach_range(dom_node_internal *first,
 			return err;
 
 		if (callback != NULL) {
-			if (n->type == DOM_ELEMENT_NODE && ((struct dom_html_element *)n)->type == DOM_HTML_ELEMENT_TYPE_SCRIPT) {
+			if (n->type == DOM_ELEMENT_NODE) {
 				callback(callback_ctx, (struct dom_element *)n);
 			}
 		}
