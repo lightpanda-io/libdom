@@ -89,4 +89,7 @@ dom_exception _dom_event_target_iter_event_listener(dom_event_target_internal et
 		struct listener_entry *cur, struct listener_entry **next,
 		dom_event_listener **listener);
 
+dom_exception _dom_event_target_get_type(dom_event_target_internal eti,
+		dom_event_target_type *result);
+
 #endif
