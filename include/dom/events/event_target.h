@@ -51,6 +51,9 @@ typedef struct dom_event_target_vtable {
 			struct listener_entry *cur,
 			struct listener_entry **next,
 			struct dom_event_listener **listener);
+	dom_exception (*internal_type)(
+			dom_event_target *et,
+			unsigned int *internal_type);
 } dom_event_target_vtable;
 
 static inline dom_exception dom_event_target_add_event_listener(

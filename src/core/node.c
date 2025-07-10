@@ -2676,3 +2676,11 @@ dom_exception _dom_node_iter_event_listener(dom_event_target *et,
 	return _dom_event_target_iter_event_listener(
 		node_internal->eti, type, capture, cur, next, listener);
 }
+
+dom_exception _dom_node_internal_type(dom_event_target *et,
+			unsigned int *internal_type)
+{
+	UNUSED(et); // Not used as it is constant for all nodes
+	*internal_type = 0; // 0 is the type for all libdom nodes
+	return DOM_NO_ERR;
+}
