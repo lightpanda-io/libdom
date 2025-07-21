@@ -17,6 +17,7 @@ struct dom_html_script_element {
 	struct dom_html_element base;
 			/**< The base class */
 	dom_html_script_element_flags flags;
+	bool processed;
 };
 
 /* Create a dom_html_script_element object */
