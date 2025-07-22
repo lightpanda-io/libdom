@@ -128,6 +128,8 @@ dom_exception _dom_html_script_element_copy(
 		return err;
 	}
 
+	new_node->processed = false;
+
 	*copy = (dom_node_internal *) new_node;
 
 	return DOM_NO_ERR;
