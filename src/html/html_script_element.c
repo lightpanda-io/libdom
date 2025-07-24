@@ -61,6 +61,7 @@ dom_exception _dom_html_script_element_initialise(
 		struct dom_html_script_element *ele)
 {
 	ele->flags = DOM_HTML_SCRIPT_ELEMENT_FLAG_NON_BLOCKING;
+	ele->processed = false;
 
 	return _dom_html_element_initialise(params, &ele->base);
 }
@@ -126,6 +127,8 @@ dom_exception _dom_html_script_element_copy(
 		free(new_node);
 		return err;
 	}
+
+	new_node->processed = false;
 
 	*copy = (dom_node_internal *) new_node;
 
@@ -309,6 +312,41 @@ dom_exception dom_html_script_element_set_flags(
 	assert(ele != NULL);
 
 	ele->flags = flags;
+
+	return DOM_NO_ERR;
+}
+
+/**
+ * Get the processed property
+ *
+ * \param ele       The dom_html_script_element object
+ * \param processed  The status
+ * \return DOM_NO_ERR on success, appropriate dom_exception on failure.
+ */
+dom_exception dom_html_script_element_get_processed(dom_html_script_element *ele,
+		                bool *processed)
+{
+	assert(ele != NULL);
+
+	*processed = ele->processed;
+
+	return DOM_NO_ERR;
+}
+
+/*
+ * Set the processed flag
+ *
+ * \param ele The dom_html_script_element object
+ * \param processed The processed to retain
+ * \return DOM_NO_ERR on success
+ */
+dom_exception dom_html_script_element_set_processed(
+	dom_html_script_element *ele,
+	bool processed)
+{
+	assert(ele != NULL);
+
+	ele->processed = processed;
 
 	return DOM_NO_ERR;
 }

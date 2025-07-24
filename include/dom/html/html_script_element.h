@@ -42,6 +42,12 @@ dom_exception dom_html_script_element_get_async(
 dom_exception dom_html_script_element_set_async(
 	dom_html_script_element *ele, bool async);
 
+dom_exception dom_html_script_element_get_processed(
+	dom_html_script_element *ele, bool *processed);
+
+dom_exception dom_html_script_element_set_processed(
+	dom_html_script_element *ele, bool processed);
+
 dom_exception dom_html_script_element_get_text(
 	dom_html_script_element *element, dom_string **text);
 
