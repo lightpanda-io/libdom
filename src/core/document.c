@@ -139,6 +139,7 @@ dom_exception _dom_document_initialise(dom_document *doc,
 		return err;
 	}
 
+	doc->is_html = false;
 	doc->nodelists = NULL;
 	doc->script_added_callback = NULL;
 	doc->script_added_callback_ctx = NULL;

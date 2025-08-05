@@ -127,6 +127,8 @@ dom_exception _dom_html_document_initialise(dom_html_document *doc,
 	if (error != DOM_NO_ERR)
 		return error;
 
+	doc->base.is_html = true;
+
 	doc->title = NULL;
 	doc->referrer = NULL;
 	doc->domain = NULL;
