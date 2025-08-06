@@ -68,6 +68,8 @@ struct dom_document {
 	void* script_added_callback_ctx;
 	dom_script_added_callback script_added_callback;
 
+	bool is_html;
+
 	/* Memoised event strings */
 	dom_string *_memo_domnodeinserted; /**< DOMNodeInserted */
 	dom_string *_memo_domnoderemoved;  /**< DOMNodeRemoved */
