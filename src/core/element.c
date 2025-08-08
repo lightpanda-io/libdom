@@ -1647,7 +1647,7 @@ dom_exception _dom_element_set_attr(struct dom_element *element,
 	dom_node_internal *e = (dom_node_internal *) element;
 	dom_exception err;
 
-	if (_dom_validate_name(name) == false)
+	if (_dom_validate_attribute_name(name) == false)
 		return DOM_INVALID_CHARACTER_ERR;
 
 	/* Ensure element can be written */
