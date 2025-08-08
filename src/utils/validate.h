@@ -20,6 +20,7 @@
 
 bool _dom_validate_name(dom_string *name);
 bool _dom_validate_ncname(dom_string *name);
+bool _dom_validate_attribute_name(dom_string *name);
 
 #endif
 
