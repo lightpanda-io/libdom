@@ -11,6 +11,12 @@
 #include <dom/core/exceptions.h>
 #include <dom/core/doc_fragment.h>
 
+struct dom_document_fragment {
+	dom_node_internal base;		/**< Base node */
+	/* if the document framgment is part of a shadowroot, this is the host element */
+	dom_node_internal *host;
+};
+
 dom_exception _dom_document_fragment_create(dom_document *doc,
 		dom_string *name, dom_string *value,
 		dom_document_fragment **result);

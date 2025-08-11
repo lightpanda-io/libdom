@@ -18,9 +18,6 @@
 /**
  * A DOM document fragment
  */
-struct dom_document_fragment {
-	dom_node_internal base;		/**< Base node */
-};
 
 static const struct dom_node_vtable df_vtable = {
 	{
@@ -60,6 +57,7 @@ dom_exception _dom_document_fragment_create(dom_document *doc,
 
 	f->base.base.vtable = &df_vtable;
 	f->base.vtable = &df_protect_vtable;
+	f->host = NULL;
 
 	/* And initialise the node */
 	err = _dom_document_fragment_initialise(&f->base, doc, 
@@ -86,8 +84,23 @@ void _dom_document_fragment_destroy(dom_document_fragment *frag)
 	/* Finalise base class */
 	_dom_document_fragment_finalise(&frag->base);
 
+	if (frag->host != NULL) {
+		dom_node_unref(frag->host);
+	}
 	/* Destroy fragment */
 	free(frag);
+}
+
+void _dom_document_fragment_get_host(dom_document_fragment *frag, dom_node_internal **host) {
+	*host = frag->host;
+}
+
+void _dom_document_fragment_set_host(dom_document_fragment *frag, dom_node_internal *host) {
+	if (frag->host != NULL) {
+		dom_node_unref(frag->host);
+	}
+	dom_node_ref(host);
+	frag->host = host;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -116,6 +129,7 @@ dom_exception _dom_df_copy(dom_node_internal *old, dom_node_internal **copy)
 		return err;
 	}
 
+	new_f->host = NULL;
 	*copy = (dom_node_internal *) new_f;
 
 	return DOM_NO_ERR;

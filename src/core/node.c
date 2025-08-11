@@ -14,6 +14,7 @@
 
 #include <dom/core/attr.h>
 #include <dom/core/text.h>
+#include <dom/core/doc_fragment.h>
 #include <dom/core/document.h>
 #include <dom/core/namednodemap.h>
 #include <dom/core/nodelist.h>
@@ -2491,13 +2492,13 @@ dom_exception _dom_node_dispatch_event(dom_event_target *et,
 	target = target->parent;
 
 	/* Add interested event listeners to array */
-	for (; target != NULL; target = target->parent) {
+	for (; target != NULL; ) {
 		struct listener_entry *le = target->eti.listeners;
 		bool target_has_listener = false;
 
 		if (le == NULL) {
 			/* This event target isn't listening to anything */
-			continue;
+			goto next;
 		}
 
 		/* Check whether the event target is listening for this
@@ -2511,7 +2512,7 @@ dom_exception _dom_node_dispatch_event(dom_event_target *et,
 		} while (le != target->eti.listeners);
 
 		if (target_has_listener == false) {
-			continue;
+			goto next;
 		}
 
 		/* The event target is listening for this event type,
@@ -2525,6 +2526,23 @@ dom_exception _dom_node_dispatch_event(dom_event_target *et,
 			}
 		}
 		targets[ntargets++] = (dom_event_target *)dom_node_ref(target);
+
+		next:
+			// Usually, ShadowRoots are isolated from the rest of the
+			// document. This is easily achieved because the Document Fragment
+			// associated with a ShadowRoot isn't in the DOM. However,
+			// event bubbling doesn't follow this isolation (e.g. clicking
+			// a node inside the shadowroot causes listeners of all parents,
+			// including those above the shadow root to fire).
+			// So for events, we need to jump this bridge. If a Document
+			// Fragment has a host (and no other parent), then we jump
+			// to its host and continue upwards.
+			if (target->type == DOM_DOCUMENT_FRAGMENT_NODE && target->parent == NULL) {
+				struct dom_document_fragment *frag = (struct dom_document_fragment *)target;
+				target = frag->host;
+			} else {
+				target = target->parent;
+			}
 	}
 
 	/* Fill the target of the event */
