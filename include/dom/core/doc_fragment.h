@@ -8,5 +8,7 @@
 #define dom_core_documentfragment_h_
 
 typedef struct dom_document_fragment dom_document_fragment;
+void _dom_document_fragment_get_host(dom_document_fragment *frag, dom_node_internal **host);
+void _dom_document_fragment_set_host(dom_document_fragment *frag, dom_node_internal *host);
 
 #endif
