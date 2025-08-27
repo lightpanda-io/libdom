@@ -9,6 +9,7 @@ DIR_SOURCES := \
 	html_button_element.c \
 	html_canvas_element.c \
 	html_collection.c \
+	html_slot_element.c \
 	html_document.c \
 	html_element.c \
 	html_dlist_element.c \

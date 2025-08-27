@@ -145,6 +145,7 @@ INSTALL_ITEMS := $(INSTALL_ITEMS) $(I):$(Is)/html_frameset_element.h
 INSTALL_ITEMS := $(INSTALL_ITEMS) $(I):$(Is)/html_frame_element.h
 INSTALL_ITEMS := $(INSTALL_ITEMS) $(I):$(Is)/html_iframe_element.h
 INSTALL_ITEMS := $(INSTALL_ITEMS) $(I):$(Is)/html_isindex_element.h
+INSTALL_ITEMS := $(INSTALL_ITEMS) $(I):$(Is)/html_slot_element.h
 
 INSTALL_ITEMS := $(INSTALL_ITEMS) /$(LIBDIR)/pkgconfig:lib$(COMPONENT).pc.in
 INSTALL_ITEMS := $(INSTALL_ITEMS) /$(LIBDIR):$(OUTPUT)

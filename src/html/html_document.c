@@ -66,6 +66,7 @@
 #include "html/html_frame_element.h"
 #include "html/html_iframe_element.h"
 #include "html/html_isindex_element.h"
+#include "html/html_slot_element.h"
 
 #include "core/attr.h"
 #include "core/string.h"
@@ -405,6 +406,8 @@ static inline dom_html_element_type _dom_html_document_get_element_type(
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_TIME)
 		else
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_NOBR)
+		else
+		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_SLOT)
 		break;
 	case 5:
 		RETURN_IF_MATCH(upper, DOM_HTML_ELEMENT_TYPE_INPUT)
@@ -801,6 +804,10 @@ _dom_html_document_create_element_internal(
 	case DOM_HTML_ELEMENT_TYPE_CANVAS:
 		exc = _dom_html_canvas_element_create(&params,
 				(dom_html_canvas_element **) result);
+		break;
+	case DOM_HTML_ELEMENT_TYPE_SLOT:
+		exc = _dom_html_slot_element_create(&params,
+				(dom_html_slot_element **) result);
 		break;
 	case DOM_HTML_ELEMENT_TYPE_DATA:
 	case DOM_HTML_ELEMENT_TYPE_SPAN:
