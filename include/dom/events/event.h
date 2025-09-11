@@ -57,9 +57,9 @@ dom_exception _dom_event_get_cancelable(dom_event *evt, bool *cancelable);
 		(dom_event *) (e), (bool *) (c))
 
 dom_exception _dom_event_get_timestamp(dom_event *evt,
-		unsigned int *timestamp);
+		uint64_t *timestamp);
 #define dom_event_get_timestamp(e, t) _dom_event_get_timestamp(\
-		(dom_event *) (e), (unsigned int *) (t))
+		(dom_event *) (e), (uint64_t *) (t))
 
 dom_exception _dom_event_stop_propagation(dom_event *evt);
 #define dom_event_stop_propagation(e) _dom_event_stop_propagation(\
