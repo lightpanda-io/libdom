@@ -213,7 +213,7 @@ dom_exception _dom_event_get_cancelable(dom_event *evt, bool *cancelable)
  * \param timestamp  The returned value
  * \return DOM_NO_ERR.
  */
-dom_exception _dom_event_get_timestamp(dom_event *evt, unsigned int *timestamp)
+dom_exception _dom_event_get_timestamp(dom_event *evt, uint64_t *timestamp)
 {
 	*timestamp = evt->timestamp;
 	return DOM_NO_ERR;
@@ -261,7 +261,12 @@ dom_exception _dom_event_init(dom_event *evt, dom_string *type,
 	evt->cancelable = cancelable;
 	evt->is_initialised = true;
 
-	evt->timestamp = time(NULL);
+	struct timespec ts;
+  clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
+  uint64_t timestamp = (uint64_t)ts.tv_sec * 1000 + (uint64_t)ts.tv_nsec / 1000000;
+  // reduce resolution for protection against fingerprinting (what Firefox does)
+  evt->timestamp = timestamp - timestamp % 2;
+	// evt->timestamp = time(NULL);
 
 	return DOM_NO_ERR;
 }
