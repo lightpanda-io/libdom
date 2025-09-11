@@ -23,9 +23,9 @@ static const struct dom_event_private_vtable _event_vtable = {
 dom_exception _dom_keyboard_event_create(struct dom_keyboard_event **evt)
 {
 	*evt = calloc(1, sizeof(dom_keyboard_event));
-	if (*evt == NULL) 
+	if (*evt == NULL)
 		return DOM_NO_MEM_ERR;
-	
+
 	((struct dom_event *) *evt)->vtable = &_event_vtable;
 
 	return _dom_keyboard_event_initialise(*evt);
@@ -185,13 +185,13 @@ dom_exception _dom_keyboard_event_get_meta_key(dom_keyboard_event *evt,
  * Query the state of a modifier using a key identifier
  *
  * \param evt    The event object
- * \param ml     The modifier identifier, such as "Alt", "Control", "Meta", 
+ * \param ml     The modifier identifier, such as "Alt", "Control", "Meta",
  *               "AltGraph", "CapsLock", "NumLock", "Scroll", "Shift".
  * \param state  Whether the modifier key is pressed
  * \return DOM_NO_ERR on success, appropriate dom_exception on failure.
  *
- * @note: If an application wishes to distinguish between right and left 
- * modifiers, this information could be deduced using keyboard events and 
+ * @note: If an application wishes to distinguish between right and left
+ * modifiers, this information could be deduced using keyboard events and
  * KeyboardEvent.keyLocation.
  */
 dom_exception _dom_keyboard_event_get_modifier_state(dom_keyboard_event *evt,
@@ -275,10 +275,10 @@ static void _dom_keyboard_event_init_helper(
 		evt->modifier_state |= DOM_MOD_CTRL;
 	}
 	if (shift_key) {
-		evt->modifier_state |= DOM_MOD_CTRL;
+		evt->modifier_state |= DOM_MOD_SHIFT;
 	}
 	if (alt_key) {
-		evt->modifier_state |= DOM_MOD_SHIFT;
+		evt->modifier_state |= DOM_MOD_ALT;
 	}
 	if (meta_key) {
 		evt->modifier_state |= DOM_MOD_META;
@@ -399,7 +399,7 @@ dom_exception _dom_parse_modifier_list(dom_string *modifier_list,
 
 	if (modifier_list == NULL)
 		return DOM_NO_ERR;
-	
+
 	data = dom_string_data(modifier_list);
 	m = data;
 
@@ -409,35 +409,35 @@ dom_exception _dom_parse_modifier_list(dom_string *modifier_list,
 		if (*data == ' ' || *data == '\0') {
 			if (len == SLEN("AltGraph") &&
 					strncmp(m, "AltGraph", len) == 0) {
-				*modifier_state = *modifier_state | 
+				*modifier_state = *modifier_state |
 						DOM_MOD_ALT_GRAPH;
 			} else if (len == SLEN("Alt") &&
 					strncmp(m, "Alt", len) == 0) {
-				*modifier_state = *modifier_state | 
+				*modifier_state = *modifier_state |
 						DOM_MOD_ALT;
 			} else if (len == SLEN("CapsLock") &&
 					strncmp(m, "CapsLock", len) == 0) {
-				*modifier_state = *modifier_state | 
+				*modifier_state = *modifier_state |
 						DOM_MOD_CAPS_LOCK;
 			} else if (len == SLEN("Control") &&
 					strncmp(m, "Control", len) == 0) {
-				*modifier_state = *modifier_state | 
+				*modifier_state = *modifier_state |
 						DOM_MOD_CTRL;
 			} else if (len == SLEN("Meta") &&
 					strncmp(m, "Meta", len) == 0) {
-				*modifier_state = *modifier_state | 
+				*modifier_state = *modifier_state |
 						DOM_MOD_META;
 			} else if (len == SLEN("NumLock") &&
 					strncmp(m, "NumLock", len) == 0) {
-				*modifier_state = *modifier_state | 
+				*modifier_state = *modifier_state |
 						DOM_MOD_NUM_LOCK;
 			} else if (len == SLEN("Scroll") &&
 					strncmp(m, "Scroll", len) == 0) {
-				*modifier_state = *modifier_state | 
+				*modifier_state = *modifier_state |
 						DOM_MOD_SCROLL;
 			} else if (len == SLEN("Shift") &&
 					strncmp(m, "Shift", len) == 0) {
-				*modifier_state = *modifier_state | 
+				*modifier_state = *modifier_state |
 						DOM_MOD_SHIFT;
 			}
 
@@ -458,4 +458,3 @@ dom_exception _dom_parse_modifier_list(dom_string *modifier_list,
 
 	return DOM_NO_ERR;
 }
-
