@@ -327,6 +327,13 @@ dom_exception _dom_event_is_default_prevented(dom_event *evt, bool *prevented)
 	return DOM_NO_ERR;
 }
 
+dom_exception _dom_event_is_stopped(dom_event *evt, bool *stopped)
+{
+	*stopped = evt->stop_now || evt->stop;
+
+	return DOM_NO_ERR;
+}
+
 /**
  * Initialise the event with namespace
  *
