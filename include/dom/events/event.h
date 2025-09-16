@@ -91,6 +91,10 @@ dom_exception _dom_event_is_default_prevented(dom_event *evt, bool *prevented);
 #define dom_event_is_default_prevented(e, p) \
 		_dom_event_is_default_prevented((dom_event *) (e), (bool *) (p))
 
+dom_exception _dom_event_is_stopped(dom_event *evt, bool *stopped);
+#define dom_event_is_stopped(e, p) \
+		_dom_event_is_default_prevented((dom_event *) (e), (bool *) (p))
+
 dom_exception _dom_event_init_ns(dom_event *evt, dom_string *namespace,
 		dom_string *type, bool bubble, bool cancelable);
 #define dom_event_init_ns(e, n, t, b, c) _dom_event_init_ns( \
