@@ -826,7 +826,7 @@ dom_exception dom_string_replace(dom_string *target,
 	}
 
 	/* Copy remainder of target, if any, into result */
-	if (tlen - b2 > 0) {
+	if (b2 < tlen) {
 		memcpy(res->data.cdata.ptr + b1 + slen, t + b2, tlen - b2);
 	}
 
