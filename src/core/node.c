@@ -1535,6 +1535,10 @@ dom_exception _dom_node_set_text_content(dom_node_internal *node,
 		return err;
 
 	err = dom_node_append_child(node, text, (void *) &r);
+	if (err != DOM_NO_ERR) {
+		dom_node_unref(text);
+		return err;
+	}
 
 	/* The node is held alive as a child here, so unref it */
 	dom_node_unref(text);
