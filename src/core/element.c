@@ -204,11 +204,10 @@ static dom_attr_list * _dom_element_attr_list_find_by_name(
 		return NULL;
 
 	do {
-		if (((namespace == NULL && attr->namespace == NULL) ||
-				(namespace != NULL && attr->namespace != NULL &&
-						dom_string_isequal(namespace,
-						attr->namespace))) &&
-				dom_string_isequal(name, attr->name)) {
+		if ((namespace == NULL || (
+				(attr->namespace != NULL && dom_string_isequal(namespace, attr->namespace)))) &&
+				dom_string_isequal(name, attr->name)
+		) {
 			/* Both have NULL namespace or matching namespace,
 			 * and both have same name */
 			return attr;
