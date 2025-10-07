@@ -179,15 +179,21 @@ dom_exception _dom_html_element_get_attribute(
 		dom_string *name, dom_string **value)
 {
 	dom_exception exc;
-	dom_string *lower_case_name;
+	bool free_name = false;
+	dom_string *normalized_name = name;
 
-	exc = dom_string_tolower(name, true, &lower_case_name);
-	if (exc != DOM_NO_ERR) {
-		return exc;
+	if (_dom_html_element_should_normalize_attribute_name(element)) {
+		free_name = true;
+		exc = dom_string_tolower(name, true, &normalized_name);
+		if (exc != DOM_NO_ERR) {
+			return exc;
+		}
 	}
 
-	exc = _dom_element_get_attribute(element, lower_case_name, value);
-	dom_string_unref(lower_case_name);
+	exc = _dom_element_get_attribute(element, normalized_name, value);
+	if (free_name) {
+		dom_string_unref(normalized_name);
+	}
 
 	return exc;
 }
@@ -197,15 +203,21 @@ dom_exception _dom_html_element_set_attribute(
 		dom_string *name, dom_string *value)
 {
 	dom_exception exc;
-	dom_string *lower_case_name;
+	bool free_name = false;
+	dom_string *normalized_name = name;
 
-	exc = dom_string_tolower(name, true, &lower_case_name);
-	if (exc != DOM_NO_ERR) {
-		return exc;
+	if (_dom_html_element_should_normalize_attribute_name(element)) {
+		free_name = true;
+		exc = dom_string_tolower(name, true, &normalized_name);
+		if (exc != DOM_NO_ERR) {
+			return exc;
+		}
 	}
 
-	exc = _dom_element_set_attribute(element, lower_case_name, value);
-	dom_string_unref(lower_case_name);
+	exc = _dom_element_set_attribute(element, normalized_name, value);
+	if (free_name) {
+		dom_string_unref(normalized_name);
+	}
 
 	return exc;
 }
@@ -215,15 +227,21 @@ dom_exception _dom_html_element_remove_attribute(
 		dom_string *name)
 {
 	dom_exception exc;
-	dom_string *lower_case_name;
+	bool free_name = false;
+	dom_string *normalized_name = name;
 
-	exc = dom_string_tolower(name, true, &lower_case_name);
-	if (exc != DOM_NO_ERR) {
-		return exc;
+	if (_dom_html_element_should_normalize_attribute_name(element)) {
+		free_name = true;
+		exc = dom_string_tolower(name, true, &normalized_name);
+		if (exc != DOM_NO_ERR) {
+			return exc;
+		}
 	}
 
-	exc = _dom_element_remove_attribute(element, lower_case_name);
-	dom_string_unref(lower_case_name);
+	exc = _dom_element_remove_attribute(element, normalized_name);
+	if (free_name) {
+		dom_string_unref(normalized_name);
+	}
 
 	return exc;
 }
@@ -233,15 +251,21 @@ dom_exception _dom_html_element_has_attribute(
 		dom_string *name, bool *result)
 {
 	dom_exception exc;
-	dom_string *lower_case_name;
+	bool free_name = false;
+	dom_string *normalized_name = name;
 
-	exc = dom_string_tolower(name, true, &lower_case_name);
-	if (exc != DOM_NO_ERR) {
-		return exc;
+	if (_dom_html_element_should_normalize_attribute_name(element)) {
+		free_name = true;
+		exc = dom_string_tolower(name, true, &normalized_name);
+		if (exc != DOM_NO_ERR) {
+			return exc;
+		}
 	}
 
-	exc = _dom_element_has_attribute(element, lower_case_name, result);
-	dom_string_unref(lower_case_name);
+	exc = _dom_element_has_attribute(element, normalized_name, result);
+	if (free_name) {
+		dom_string_unref(normalized_name);
+	}
 
 	return exc;
 }
@@ -623,4 +647,18 @@ cleanup:
 
 fail:
 	return err;
+}
+
+// XML elements, like SVGs, have case-sensitive attributes
+bool _dom_html_element_should_normalize_attribute_name(dom_element *element) {
+	// quick check to avoid string comparison for common cases
+	if (((dom_html_element*)element)->type == 0) {
+		dom_string *tag;
+		if (dom_element_get_tag_name(element, &tag) == DOM_NO_ERR) {
+			return strcmp(dom_string_data(tag), "SVG") != 0;
+
+		}
+	}
+
+	return true;
 }
