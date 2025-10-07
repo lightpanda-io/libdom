@@ -166,3 +166,4 @@ extern const struct dom_html_element_vtable _dom_html_element_vtable;
 
 #endif
 
+bool _dom_html_element_should_normalize_attribute_name(dom_element *element);
