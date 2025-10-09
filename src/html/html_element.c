@@ -10,6 +10,8 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <dom/dom.h>
+
 #include "html/html_document.h"
 #include "html/html_element.h"
 
@@ -653,10 +655,9 @@ fail:
 bool _dom_html_element_should_normalize_attribute_name(dom_element *element) {
 	// quick check to avoid string comparison for common cases
 	if (((dom_html_element*)element)->type == 0) {
-		dom_string *tag;
-		if (dom_element_get_tag_name(element, &tag) == DOM_NO_ERR) {
-			return strcmp(dom_string_data(tag), "SVG") != 0;
-
+		dom_string *namespace;
+		if (_dom_node_get_namespace((dom_node_internal *)element, &namespace) == DOM_NO_ERR) {
+			return dom_string_isequal(namespace, dom_namespaces[DOM_NAMESPACE_SVG]) == false;
 		}
 	}
 
