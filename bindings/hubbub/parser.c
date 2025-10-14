@@ -348,9 +348,16 @@ static hubbub_error append_child(void *parser, void *parent, void *child,
 	dom_hubbub_parser *dom_parser = (dom_hubbub_parser *) parser;
 	dom_exception err;
 
-	err = dom_node_append_child((struct dom_node *) parent,
-				    (struct dom_node *) child,
-				    (struct dom_node **) result);
+	struct dom_node_internal *child_node = (struct dom_node_internal *) child;
+	struct dom_node_internal *parent_node = (struct dom_node_internal *) parent;
+	if (child_node->type == DOM_TEXT_NODE && parent_node->last_child != NULL && parent_node->last_child->type == DOM_TEXT_NODE) {
+		err = _dom_merge_adjacent_text(parent_node->last_child, child_node);
+		*result = NULL;
+	} else {
+		err = dom_node_append_child((struct dom_node *)parent,
+					    (struct dom_node *)child,
+					    (struct dom_node **) result);
+	}
 	if (err != DOM_NO_ERR) {
 		dom_parser->msg(DOM_MSG_CRITICAL, dom_parser->mctx,
 				"Can't append child '%p' for parent '%p'",
