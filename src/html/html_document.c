@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
+#include <dom/dom.h>
 #include <dom/html/html_elements.h>
 
 #include "html/html_document.h"
@@ -565,9 +566,14 @@ _dom_html_document_create_element_internal(
 	if (dom_string_length(in_tag_name) == 0)
 		return DOM_INVALID_CHARACTER_ERR;
 
-	exc = dom_string_toupper(in_tag_name, true, &params.name);
-	if (exc != DOM_NO_ERR)
-		return exc;
+	if (dom_string_isequal(namespace, dom_namespaces[DOM_NAMESPACE_SVG]) == false) {
+		exc = dom_string_toupper(in_tag_name, true, &params.name);
+		if (exc != DOM_NO_ERR)
+			return exc;
+	} else {
+		dom_string_unref(in_tag_name);
+		params.name = in_tag_name;
+	}
 
 	params.type = _dom_html_document_get_element_type(html, params.name);
 	params.doc = html;
